@@ -1,0 +1,7 @@
+{
+    "name": "cgtag/dependency-injection",
+    "description": "The PHP 7 dependency injection container for cgTag",
+    "type": "library",
+    "license": "MIT",
+    "require": {}
+}
