@@ -6,34 +6,14 @@ cgTag DI is the dependency injector for PHP used to develop the cgTag.com websit
 me to design PHP classes without concerns of tight coupling between class usage and class implementation. It
 uses a fluid interface for easier usage and supports automatic injection via reflection.
 
+## Why Another DI Library?
+
+This is my forth DI library written from scratch. I've written ones for C#, JavaScript and TypeScript in the past and wanted to continue with
+a pattern that I was familiar with. There are other libraries for PHP such as [PHP-DI](http://php-di.org/) and [Nette DI](https://github.com/nette/di)
+that offer their own approaches, but my goal is seamless DI without much effort from the programmer.
+
 ## Requirements
 - PHP 7.1 or higher
-
-*Write your code so it's flexible and injection can be automatic*
-```
-class DebugLogger implements ILogger {
-    
-}
-
-class Service {
-    public $log;
-    public function __constructor(ILogger $log) 
-    {
-        $this->log = $log;
-    }
-}
-```
-
-*...and let Ninject glue it together for you.*
-```
-public class AppModule extends DIModule
-{
-    public function load(IDIContainer $con) 
-    {
-        $this->bind(ILogger::class)->toClass(DebugLogger::class)->asSingleton();
-    }
-}
-```
 
 ## License
 MIT License
