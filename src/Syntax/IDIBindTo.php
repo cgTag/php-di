@@ -6,18 +6,18 @@ use cgTag\DI\Providers\IDIProvider;
 interface IDIBindTo
 {
     /**
-     * Binds the class name as a service object with dependencies injected to the constructor.
+     * Binds the class name as a service object with dependencies injected into the constructor.
      *
      * @return IDIBindTo
      */
-    public function toService(): IDIBindTo;
+    public function asService(): IDIBindTo;
 
     /**
      * Binds as a singleton.
      *
      * @return IDIBindTo
      */
-    public function toSingleton(): IDIBindTo;
+    public function asSingleton(): IDIBindTo;
 
     /**
      * Binds as array.
@@ -34,6 +34,14 @@ interface IDIBindTo
      * @return IDIBindTo
      */
     public function toCallable(callable $value): IDIBindTo;
+
+    /**
+     * Binds the current symbol to new instances of class name with dependencies injected into the constructor.
+     *
+     * @param string $className
+     * @return IDIBindTo
+     */
+    public function toClass(string $className): IDIBindTo;
 
     /**
      * Binds to a constant value.
@@ -83,7 +91,7 @@ interface IDIBindTo
     public function toString(string $value): IDIBindTo;
 
     /**
-     * Binds to a class.
+     * Binds to another symbol to that the binding acts like an alias.
      *
      * @param string $symbol
      * @return IDIBindTo
@@ -91,8 +99,10 @@ interface IDIBindTo
     public function toSymbol(string $symbol): IDIBindTo;
 
     /**
+     * Binds a class identifier to an instance of IDIProvider.
+     *
      * @param IDIProvider $provider
      * @return IDIBindTo
      */
-    public function toProvider(IDIProvider $provider): IDIBindTo;
+    public function withProvider(IDIProvider $provider): IDIBindTo;
 }

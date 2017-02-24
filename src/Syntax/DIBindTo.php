@@ -39,6 +39,33 @@ class DIBindTo implements IDIBindTo
     }
 
     /**
+     * Binds the class name as a service object with dependencies injected to the constructor.
+     *
+     * @return IDIBindTo
+     */
+    public function asService(): IDIBindTo
+    {
+        $this->container->setBinding($this->symbol, new DIReflectionBinding($this->symbol));
+        return $this;
+    }
+
+    /**
+     * Binds as a singleton.
+     *
+     * @return IDIBindTo
+     * @throws DINotFoundException
+     */
+    public function asSingleton(): IDIBindTo
+    {
+        $binding = $this->container->getBinding($this->symbol);
+        if ($binding === null) {
+            throw new DINotFoundException($this->symbol);
+        }
+        $this->container->setBinding($this->symbol, new DISingletonBinding($binding), true);
+        return $this;
+    }
+
+    /**
      * Binds as array.
      *
      * @param array $arr
@@ -58,6 +85,18 @@ class DIBindTo implements IDIBindTo
     public function toCallable(callable $value): IDIBindTo
     {
         return $this->toConstant($value);
+    }
+
+    /**
+     * Binds the current symbol to new instances of class name with dependencies injected into the constructor.
+     *
+     * @param string $className
+     * @return IDIBindTo
+     */
+    public function toClass(string $className): IDIBindTo
+    {
+        $this->container->setBinding($this->symbol, new DIReflectionBinding($className));
+        return $this;
     }
 
     /**
@@ -117,44 +156,6 @@ class DIBindTo implements IDIBindTo
     }
 
     /**
-     * @param IDIProvider $provider
-     * @return IDIBindTo
-     */
-    public function toProvider(IDIProvider $provider): IDIBindTo
-    {
-        $providerName = "{$this->symbol}Provider";
-        $this->container->setBinding($providerName, new DIConstantBinding($provider));
-        return $this;
-    }
-
-    /**
-     * Binds the class name as a service object with dependencies injected to the constructor.
-     *
-     * @return IDIBindTo
-     */
-    public function toService(): IDIBindTo
-    {
-        $this->container->setBinding($this->symbol, new DIReflectionBinding($this->symbol));
-        return $this;
-    }
-
-    /**
-     * Binds as a singleton.
-     *
-     * @return IDIBindTo
-     * @throws DINotFoundException
-     */
-    public function toSingleton(): IDIBindTo
-    {
-        $binding = $this->container->getBinding($this->symbol);
-        if ($binding === null) {
-            throw new DINotFoundException($this->symbol);
-        }
-        $this->container->setBinding($this->symbol, new DISingletonBinding($binding), true);
-        return $this;
-    }
-
-    /**
      * Binds as string.
      *
      * @param string $value
@@ -174,6 +175,17 @@ class DIBindTo implements IDIBindTo
     public function toSymbol(string $symbol): IDIBindTo
     {
         $this->container->setBinding($this->symbol, new DILazyBinding($symbol));
+        return $this;
+    }
+
+    /**
+     * @param IDIProvider $provider
+     * @return IDIBindTo
+     */
+    public function withProvider(IDIProvider $provider): IDIBindTo
+    {
+        $providerName = "{$this->symbol}Provider";
+        $this->container->setBinding($providerName, new DIConstantBinding($provider));
         return $this;
     }
 }

@@ -20,6 +20,55 @@ class DIBindToTest extends TestCase
 {
     /**
      * @test
+     */
+    public function shouldAsService()
+    {
+        $item = new MockItem();
+        $con = new DIContainer();
+        $con->bind(MockItem::class)->toConstant($item);
+
+        $to = new DIBindTo($con, MockService::class);
+        $to->asService();
+
+        $this->assertInstanceOf(DIReflectionBinding::class, $con->getBinding(MockService::class));
+
+        /** @var MockService $service */
+        $service = $con->get(MockService::class);
+
+        $this->assertInstanceOf(MockService::class, $service);
+        $this->assertInstanceOf(MockItem::class, $service->item);
+    }
+
+    /**
+     * Replaces the binding with a singleton binding that wraps the previous binding.
+     *
+     * @test
+     */
+    public function shouldAsSingleton()
+    {
+        $con = new DIContainer();
+        $con->bind('space')->toConstant(1);
+
+        $to = new DIBindTo($con, 'space');
+        $to->asSingleton();
+        $this->assertInstanceOf(DISingletonBinding::class, $con->getBinding('space'));
+        $this->assertEquals(1, $con->getBinding('space')->resolve($con));
+    }
+
+    /**
+     * @test
+     * @expectedException \cgTag\DI\Exceptions\DINotFoundException
+     * @expectedExceptionMessage Injectable not found: space
+     */
+    public function shouldAsSingletonThrowNotFound()
+    {
+        $con = new DIContainer();
+        $to = new DIBindTo($con, 'space');
+        $to->asSingleton();
+    }
+
+    /**
+     * @test
      * @expectedException \cgTag\DI\Exceptions\DIArgumentException
      * @expectedExceptionMessage invalid symbol
      */
@@ -124,71 +173,6 @@ class DIBindToTest extends TestCase
     /**
      * @test
      */
-    public function shouldToProvider()
-    {
-        $class = MockItem::class;
-        $provider = new MockItemProvider();
-        $con = new DIContainer();
-        $con->bind($class)->toProvider($provider);
-
-        $providerName = "{$class}Provider";
-        $this->assertTrue($con->has($providerName));
-        $this->assertInstanceOf(DIConstantBinding::class, $con->getBinding($providerName));
-        $this->assertSame($provider, $con->get($providerName));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldToService()
-    {
-        $item = new MockItem();
-        $con = new DIContainer();
-        $con->bind(MockItem::class)->toConstant($item);
-
-        $to = new DIBindTo($con, MockService::class);
-        $to->toService();
-
-        $this->assertInstanceOf(DIReflectionBinding::class, $con->getBinding(MockService::class));
-
-        /** @var MockService $service */
-        $service = $con->get(MockService::class);
-
-        $this->assertInstanceOf(MockService::class, $service);
-        $this->assertInstanceOf(MockItem::class, $service->item);
-    }
-
-    /**
-     * Replaces the binding with a singleton binding that wraps the previous binding.
-     *
-     * @test
-     */
-    public function shouldToSingleton()
-    {
-        $con = new DIContainer();
-        $con->bind('space')->toConstant(1);
-
-        $to = new DIBindTo($con, 'space');
-        $to->toSingleton();
-        $this->assertInstanceOf(DISingletonBinding::class, $con->getBinding('space'));
-        $this->assertEquals(1, $con->getBinding('space')->resolve($con));
-    }
-
-    /**
-     * @test
-     * @expectedException \cgTag\DI\Exceptions\DINotFoundException
-     * @expectedExceptionMessage Injectable not found: space
-     */
-    public function shouldToSingletonThrowNotFound()
-    {
-        $con = new DIContainer();
-        $to = new DIBindTo($con, 'space');
-        $to->toSingleton();
-    }
-
-    /**
-     * @test
-     */
     public function shouldToString()
     {
         $con = new DIContainer();
@@ -209,5 +193,21 @@ class DIBindToTest extends TestCase
         $to->toSymbol('ship');
         $this->assertInstanceOf(DILazyBinding::class, $con->getBinding('space'));
         $this->assertSame(1234, $con->getBinding('space')->resolve($con));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldWithProvider()
+    {
+        $class = MockItem::class;
+        $provider = new MockItemProvider();
+        $con = new DIContainer();
+        $con->bind($class)->withProvider($provider);
+
+        $providerName = "{$class}Provider";
+        $this->assertTrue($con->has($providerName));
+        $this->assertInstanceOf(DIConstantBinding::class, $con->getBinding($providerName));
+        $this->assertSame($provider, $con->get($providerName));
     }
 }

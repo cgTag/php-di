@@ -34,7 +34,7 @@ class DIContainerTest extends TestCase
     public function shouldCreate()
     {
         $con = new DIContainer();
-        $con->bind(MockItem::class)->toProvider(new MockItemProvider());
+        $con->bind(MockItem::class)->withProvider(new MockItemProvider());
         $item = $con->create(MockItem::class);
         $this->assertInstanceOf(MockItem::class, $item);
     }
@@ -241,7 +241,7 @@ class DIContainerTest extends TestCase
     public function shouldWith()
     {
         $con = new DIContainer();
-        $con->bind(MockItem::class)->toProvider(new MockItemProvider());
+        $con->bind(MockItem::class)->withProvider(new MockItemProvider());
 
         $creator = $con->with(['foo' => 'bar']);
         $this->assertInstanceOf(IDICreator::class, $creator);

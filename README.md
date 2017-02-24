@@ -6,14 +6,12 @@ cgTag DI is the dependency injector for PHP used to develop the cgTag.com websit
 me to design PHP classes without concerns of tight coupling between class usage and class implementation. It
 uses a fluid interface for easier usage and supports automatic injection via reflection.
 
-## Why Another DI Library?
-
-This is my forth DI library written from scratch. I've written ones for C#, JavaScript and TypeScript in the past and wanted to continue with
-a pattern that I was familiar with. There are other libraries for PHP such as [PHP-DI](http://php-di.org/) and [Nette DI](https://github.com/nette/di)
-that offer their own approaches, but my goal is seamless DI without much effort from the programmer.
-
 ## Requirements
 - PHP 7.1 or higher
+
+# Usage
+Here's some basic concepts to get you started. This DI library works by associating a `string` (the *symbol*) to another variable (the *dependency*). This
+association is called the *binding*. There are different types of *bindings* such as; constants, singletons, lazy loading and reflection.
 
 ## License
 MIT License

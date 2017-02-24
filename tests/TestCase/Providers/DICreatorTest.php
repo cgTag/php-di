@@ -18,7 +18,7 @@ class DICreatorTest extends TestCase
     public function shouldCreate()
     {
         $con = new DIContainer();
-        $con->bind(MockItem::class)->toProvider(new MockItemProvider());
+        $con->bind(MockItem::class)->withProvider(new MockItemProvider());
 
         $creator = new DICreator($con);
         $item = $creator->create(MockItem::class);

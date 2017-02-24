@@ -18,7 +18,7 @@ final class DIKernel extends DIModule
      */
     public function __construct(...$modules)
     {
-        parent::__construct(new DIContainer(null));
+        parent::__construct(new DIContainer());
 
         foreach($modules as $module) {
             $this->add($module);
