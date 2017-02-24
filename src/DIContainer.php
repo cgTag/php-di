@@ -114,9 +114,10 @@ class DIContainer implements IDIContainer
         if ($binding) {
             return $binding;
         }
-        return $this->parent !== null
-            ? $this->parent->getBinding($symbol)
-            : null;
+        if($this->parent !== null) {
+            return $this->parent->getBinding($symbol);
+        }
+        return null;
     }
 
     /**
