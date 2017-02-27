@@ -26,12 +26,12 @@ class DIModule extends DIContainerWrapper implements IDIModule
      */
     public function add(...$modules)
     {
-        foreach ($modules as $module) {
+        array_walk_recursive($modules, function ($module) {
             if (!$module instanceof IDIModule) {
                 throw new DIArgumentException('not a module');
             }
             $module->load($this->container);
-        }
+        });
     }
 
     /**
