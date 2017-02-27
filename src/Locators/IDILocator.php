@@ -1,5 +1,5 @@
 <?php
-namespace cgTag\DI\Locations;
+namespace cgTag\DI\Locators;
 
 use cgTag\DI\Bindings\IDIBinding;
 

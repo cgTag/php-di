@@ -3,26 +3,32 @@ namespace cgTag\DI\Test\TestCase\DI;
 
 use cgTag\DI\DIContainer;
 use cgTag\DI\DIContainerWrapper;
+use cgTag\DI\Syntax\IDIBindTo;
+use cgTag\DI\Test\BaseTestCase;
 use cgTag\DI\Test\Mocks\MockItem;
 use cgTag\DI\Test\Mocks\Providers\MockCreator;
 use cgTag\DI\Test\Mocks\Syntax\MockBindTo;
-use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 
 /**
  * @see \cgTag\DI\DIContainerWrapper
  */
-class DIContainerWrapperTest extends TestCase
+class DIContainerWrapperTest extends BaseTestCase
 {
     /**
      * @test
      */
     public function shouldBind()
     {
-        $bindTo = new MockBindTo();
+        /** @var IDIBindTo|PHPUnit_Framework_MockObject_MockObject $mock */
+        $bindTo = $this->getMockBuilder(IDIBindTo::class)
+            ->getMockForAbstractClass();
 
+        /** @var DIContainer|PHPUnit_Framework_MockObject_MockObject $mock */
         $mock = $this->getMockBuilder(DIContainer::class)
             ->setMethods(['bind'])
             ->getMock();
+
         $mock->expects($this->once())
             ->method('bind')
             ->with('space')
@@ -38,9 +44,12 @@ class DIContainerWrapperTest extends TestCase
     public function shouldCreate()
     {
         $item = new MockItem();
+
+        /** @var DIContainer|PHPUnit_Framework_MockObject_MockObject $mock */
         $mock = $this->getMockBuilder(DIContainer::class)
             ->setMethods(['create'])
             ->getMock();
+
         $mock->expects($this->once())
             ->method('create')
             ->with(MockItem::class)
@@ -55,9 +64,11 @@ class DIContainerWrapperTest extends TestCase
      */
     public function shouldGet()
     {
+        /** @var DIContainer|PHPUnit_Framework_MockObject_MockObject $mock */
         $mock = $this->getMockBuilder(DIContainer::class)
             ->setMethods(['get'])
             ->getMock();
+
         $mock->expects($this->once())
             ->method('get')
             ->with('space')
@@ -72,7 +83,7 @@ class DIContainerWrapperTest extends TestCase
      */
     public function shouldGetContainer()
     {
-        $con = new DIContainer();
+        $con = $this->getNoopContainer();
         $mod = new DIContainerWrapper($con);
         $this->assertSame($con, $mod->getContainer());
     }
@@ -82,9 +93,11 @@ class DIContainerWrapperTest extends TestCase
      */
     public function shouldHas()
     {
+        /** @var DIContainer|PHPUnit_Framework_MockObject_MockObject $mock */
         $mock = $this->getMockBuilder(DIContainer::class)
             ->setMethods(['has'])
             ->getMock();
+
         $mock->expects($this->once())
             ->method('has')
             ->with('space')
@@ -101,6 +114,7 @@ class DIContainerWrapperTest extends TestCase
     {
         $creator = new MockCreator();
 
+        /** @var DIContainer|PHPUnit_Framework_MockObject_MockObject $mock */
         $mock = $this->getMockBuilder(DIContainer::class)
             ->setMethods(['with'])
             ->getMock();

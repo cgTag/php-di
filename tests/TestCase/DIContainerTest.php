@@ -6,21 +6,21 @@ use cgTag\DI\DIContainer;
 use cgTag\DI\IDIContainer;
 use cgTag\DI\IDICreator;
 use cgTag\DI\Syntax\DIBindTo;
+use cgTag\DI\Test\BaseTestCase;
 use cgTag\DI\Test\Mocks\MockItem;
 use cgTag\DI\Test\Mocks\MockItemProvider;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @see \cgTag\DI\DIContainer
  */
-class DIContainerTest extends TestCase
+class DIContainerTest extends BaseTestCase
 {
     /**
      * @test
      */
     public function shouldBind()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         /** @var DIBindTo $bind */
         $bind = $con->bind('space');
 
@@ -33,7 +33,7 @@ class DIContainerTest extends TestCase
      */
     public function shouldCreate()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $con->bind(MockItem::class)->withProvider(new MockItemProvider());
         $item = $con->create(MockItem::class);
         $this->assertInstanceOf(MockItem::class, $item);
@@ -44,7 +44,7 @@ class DIContainerTest extends TestCase
      */
     public function shouldGet()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $con->bind('space')->toConstant('ship');
         $this->assertEquals('ship', $con->get('space'));
     }
@@ -54,7 +54,7 @@ class DIContainerTest extends TestCase
      */
     public function shouldGetBinding()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $bind = $con->bind('space');
 
         $this->assertNull($con->getBinding('space'));
@@ -69,7 +69,7 @@ class DIContainerTest extends TestCase
      */
     public function shouldGetByInjectingConstants()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $count = 0;
 
         $con->bind('space')->toDynamic(function (IDIContainer $con) use (&$count) {
@@ -95,8 +95,8 @@ class DIContainerTest extends TestCase
      */
     public function shouldGetContainer()
     {
-        $con1 = new DIContainer();
-        $this->assertSame($con1, $con1->getContainer());
+        $con = $this->getEmptyContainer();
+        $this->assertSame($con, $con->getContainer());
     }
 
     /**
@@ -104,9 +104,11 @@ class DIContainerTest extends TestCase
      */
     public function shouldGetParent()
     {
-        $con1 = new DIContainer();
-        $this->assertNull((new DIContainer())->getParent());
-        $this->assertSame($con1, (new DIContainer($con1))->getParent());
+        $con = $this->getEmptyContainer();
+        $this->assertSame(
+            $con,
+            $this->getWIthParentContainer($con)->getParent()
+        );
     }
 
     /**
@@ -114,8 +116,8 @@ class DIContainerTest extends TestCase
      */
     public function shouldGetRoot()
     {
-        $con1 = new DIContainer();
-        $con2 = new DIContainer($con1);
+        $con1 = $this->getEmptyContainer();
+        $con2 = $this->getWIthParentContainer($con1);
         $this->assertSame($con1, $con1->getRoot());
         $this->assertSame($con1, $con2->getRoot());
     }
@@ -127,7 +129,7 @@ class DIContainerTest extends TestCase
      */
     public function shouldGetThrowArgumentException()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $con->get('space', ['foo']);
     }
 
@@ -136,7 +138,7 @@ class DIContainerTest extends TestCase
      */
     public function shouldHas()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $this->assertFalse($con->has('space'));
         $con->bind('space')->toConstant('ship');
         $this->assertTrue($con->has('space'));
@@ -150,7 +152,7 @@ class DIContainerTest extends TestCase
      */
     public function shouldHaveGetThrowDependencyNotFound()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $con->get('space');
     }
 
@@ -159,7 +161,7 @@ class DIContainerTest extends TestCase
      */
     public function shouldHaveNoParent()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $this->assertNull($con->getParent());
         $this->assertSame($con, $con->getRoot());
     }
@@ -167,10 +169,18 @@ class DIContainerTest extends TestCase
     /**
      * @test
      */
+    public function shouldHaveNullParent()
+    {
+        $this->assertNull($this->getEmptyContainer()->getParent());
+    }
+
+    /**
+     * @test
+     */
     public function shouldIsRoot()
     {
-        $con1 = new DIContainer();
-        $con2 = new DIContainer($con1);
+        $con1 = $this->getEmptyContainer();
+        $con2 = $this->getWIthParentContainer($con1);
         $this->assertTrue($con1->isRoot());
         $this->assertFalse($con2->isRoot());
     }
@@ -180,7 +190,7 @@ class DIContainerTest extends TestCase
      */
     public function shouldIsolate()
     {
-        $con1 = new DIContainer();
+        $con1 = $this->getEmptyContainer();
         $con1->bind('space')->toConstant('ship');
         $con2 = $con1->isolate();
 
@@ -200,9 +210,9 @@ class DIContainerTest extends TestCase
      */
     public function shouldSetBinding()
     {
-        $con = new DIContainer();
-        $bind1 = new DIConstantBinding('ship');
-        $bind2 = new DIConstantBinding('maker');
+        $con = $this->getEmptyContainer();
+        $bind1 = $this->getMockBinding();
+        $bind2 = $this->getMockBinding();
 
         $con->setBinding('space', $bind1);
         $this->assertSame($bind1, $con->getBinding('space'));
@@ -216,8 +226,8 @@ class DIContainerTest extends TestCase
      */
     public function shouldTakeAParent()
     {
-        $con1 = new DIContainer();
-        $con2 = new DIContainer($con1);
+        $con1 = $this->getEmptyContainer();
+        $con2 = $this->getWIthParentContainer($con1);
 
         $this->assertSame($con1, $con2->getParent());
         $this->assertSame($con1, $con2->getRoot());
@@ -230,9 +240,9 @@ class DIContainerTest extends TestCase
      */
     public function shouldThrowDependencyDuplicateException()
     {
-        $con = new DIContainer();
-        $con->setBinding('space', new DIConstantBinding('ship'));
-        $con->setBinding('space', new DIConstantBinding('maker'));
+        $con = $this->getEmptyContainer();
+        $con->setBinding('space', $this->getMockBinding());
+        $con->setBinding('space', $this->getMockBinding());
     }
 
     /**
@@ -240,7 +250,7 @@ class DIContainerTest extends TestCase
      */
     public function shouldWith()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $con->bind(MockItem::class)->withProvider(new MockItemProvider());
 
         $creator = $con->with(['foo' => 'bar']);

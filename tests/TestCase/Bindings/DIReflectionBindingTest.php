@@ -3,14 +3,14 @@ namespace cgTag\DI\Test\TestCase\DI\Bindings;
 
 use cgTag\DI\Bindings\DIReflectionBinding;
 use cgTag\DI\DIContainer;
+use cgTag\DI\Test\BaseTestCase;
 use cgTag\DI\Test\Mocks\MockItem;
 use cgTag\DI\Test\Mocks\MockService;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @see \cgTag\DI\Bindings\DIReflectionBinding
  */
-class DIReflectionBindingTest extends TestCase
+class DIReflectionBindingTest extends BaseTestCase
 {
     /**
      * @test
@@ -26,7 +26,7 @@ class DIReflectionBindingTest extends TestCase
      */
     public function shouldGetResolved()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $con->bind('name')->toConstant('house');
         $con->bind('time')->toConstant('ago');
 
@@ -41,7 +41,7 @@ class DIReflectionBindingTest extends TestCase
      */
     public function shouldGetResolvedThrowNotFound()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         DIReflectionBinding::getResolved($con, \StdClass::class, ['unknown']);
     }
 
@@ -86,7 +86,10 @@ class DIReflectionBindingTest extends TestCase
      */
     public function shouldGetSymbols(callable $func, array $expected)
     {
-        $this->assertEquals($expected, DIReflectionBinding::getSymbols(new \ReflectionFunction($func)));
+        $this->assertEquals(
+            $expected,
+            DIReflectionBinding::getSymbols(new \ReflectionFunction($func))
+        );
     }
 
     /**
@@ -113,7 +116,7 @@ class DIReflectionBindingTest extends TestCase
     public function shouldResolve()
     {
         $item = new MockItem();
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $con->bind(MockItem::class)->toConstant($item);
 
         $bind = new DIReflectionBinding(MockService::class);

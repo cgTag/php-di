@@ -4,21 +4,21 @@ namespace cgTag\DI\Test\TestCase\DI;
 use cgTag\DI\DIContainer;
 use cgTag\DI\DIKernel;
 use cgTag\DI\DIModule;
+use cgTag\DI\Test\BaseTestCase;
 use cgTag\DI\Test\Mocks\MockModule;
 use cgTag\DI\Test\Mocks\MockModuleLoad;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @see \cgTag\DI\DIModule
  */
-class DIModuleTest extends TestCase
+class DIModuleTest extends BaseTestCase
 {
     /**
      * @test
      */
     public function shouldAdd()
     {
-        $m = new DIModule(new DIContainer());
+        $m = new DIModule($this->getNoopContainer());
 
         $m1 = new MockModule();
         $m2 = new MockModule();
@@ -36,7 +36,7 @@ class DIModuleTest extends TestCase
      */
     public function shouldLoad()
     {
-        $con = new DIContainer();
+        $con = $this->getNoopContainer();
         $m = new MockModuleLoad($con);
 
         $this->assertSame(1, $m->count);
@@ -49,7 +49,7 @@ class DIModuleTest extends TestCase
      */
     public function shouldThrowWhenNotAModule()
     {
-        $m = new DIModule(new DIContainer());
+        $m = new DIModule($this->getNoopContainer());
         $m->add("foobar");
     }
 

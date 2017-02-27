@@ -4,12 +4,12 @@ namespace cgTag\DI\Test\TestCase\DI\Bindings;
 use cgTag\DI\Bindings\DIDynamicBinding;
 use cgTag\DI\Bindings\DISingletonBinding;
 use cgTag\DI\DIContainer;
-use PHPUnit\Framework\TestCase;
+use cgTag\DI\Test\BaseTestCase;
 
 /**
  * @see \cgTag\DI\Bindings\DISingletonBinding
  */
-class DISingletonBindingTest extends TestCase
+class DISingletonBindingTest extends BaseTestCase
 {
 
     /**
@@ -24,9 +24,10 @@ class DISingletonBindingTest extends TestCase
         });
 
         $bind = new DISingletonBinding($inner);
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
 
         $first = $bind->resolve($con);
+
         for ($i = 0; $i < 10; $i++) {
             $instance = $bind->resolve($con);
             $this->assertInstanceOf(\StdClass::class, $instance);

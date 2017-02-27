@@ -3,21 +3,21 @@ namespace cgTag\DI\Test\TestCase\DI\Providers;
 
 use cgTag\DI\DIContainer;
 use cgTag\DI\Providers\DICreator;
+use cgTag\DI\Test\BaseTestCase;
 use cgTag\DI\Test\Mocks\MockItem;
 use cgTag\DI\Test\Mocks\MockItemProvider;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @see \cgTag\DI\Providers\DICreator
  */
-class DICreatorTest extends TestCase
+class DICreatorTest extends BaseTestCase
 {
     /**
      * @test
      */
     public function shouldCreate()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $con->bind(MockItem::class)->withProvider(new MockItemProvider());
 
         $creator = new DICreator($con);
@@ -33,7 +33,7 @@ class DICreatorTest extends TestCase
      */
     public function shouldFailWhenProviderNotFound()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $creator = new DICreator($con);
         $creator->create(MockItem::class);
     }
@@ -45,7 +45,7 @@ class DICreatorTest extends TestCase
      */
     public function shouldThrowDependencyException()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $classProvider = MockItem::class . 'Provider';
         $con->bind($classProvider)->toConstant('foobar');
         $creator = new DICreator($con);

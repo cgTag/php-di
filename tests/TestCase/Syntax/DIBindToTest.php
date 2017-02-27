@@ -8,15 +8,15 @@ use cgTag\DI\Bindings\DIReflectionBinding;
 use cgTag\DI\Bindings\DISingletonBinding;
 use cgTag\DI\DIContainer;
 use cgTag\DI\Syntax\DIBindTo;
+use cgTag\DI\Test\BaseTestCase;
 use cgTag\DI\Test\Mocks\MockItem;
 use cgTag\DI\Test\Mocks\MockItemProvider;
 use cgTag\DI\Test\Mocks\MockService;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @see \cgTag\DI\Syntax\DIBindTo
  */
-class DIBindToTest extends TestCase
+class DIBindToTest extends BaseTestCase
 {
     /**
      * @test
@@ -24,7 +24,7 @@ class DIBindToTest extends TestCase
     public function shouldAsService()
     {
         $item = new MockItem();
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $con->bind(MockItem::class)->toConstant($item);
 
         $to = new DIBindTo($con, MockService::class);
@@ -46,7 +46,7 @@ class DIBindToTest extends TestCase
      */
     public function shouldAsSingleton()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $con->bind('space')->toConstant(1);
 
         $to = new DIBindTo($con, 'space');
@@ -62,7 +62,7 @@ class DIBindToTest extends TestCase
      */
     public function shouldAsSingletonThrowNotFound()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $to = new DIBindTo($con, 'space');
         $to->asSingleton();
     }
@@ -74,7 +74,7 @@ class DIBindToTest extends TestCase
      */
     public function shouldThrowOnEmptySymbol()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         new DIBindTo($con, '');
     }
 
@@ -83,7 +83,7 @@ class DIBindToTest extends TestCase
      */
     public function shouldToArray()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $to = new DIBindTo($con, 'space');
         $to->toArray([1, 2, 3, 4]);
         $this->assertInstanceOf(DIConstantBinding::class, $con->getBinding('space'));
@@ -101,7 +101,7 @@ class DIBindToTest extends TestCase
             // my closure to inject
         };
 
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $to = new DIBindTo($con, 'space');
         $to->toCallable($closure);
         $this->assertInstanceOf(DIConstantBinding::class, $con->getBinding('space'));
@@ -113,7 +113,7 @@ class DIBindToTest extends TestCase
      */
     public function shouldToConstant()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $to = new DIBindTo($con, 'space');
         $to->toConstant('hello');
         $this->assertInstanceOf(DIConstantBinding::class, $con->getBinding('space'));
@@ -125,7 +125,7 @@ class DIBindToTest extends TestCase
      */
     public function shouldToDynamic()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $to = new DIBindTo($con, 'space');
         $to->toDynamic(function () {
             return 'ship';
@@ -139,7 +139,7 @@ class DIBindToTest extends TestCase
      */
     public function shouldToFloat()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $to = new DIBindTo($con, 'space');
         $to->toFloat(1.234);
         $this->assertInstanceOf(DIConstantBinding::class, $con->getBinding('space'));
@@ -151,7 +151,7 @@ class DIBindToTest extends TestCase
      */
     public function shouldToInt()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $to = new DIBindTo($con, 'space');
         $to->toInt(234);
         $this->assertInstanceOf(DIConstantBinding::class, $con->getBinding('space'));
@@ -163,7 +163,7 @@ class DIBindToTest extends TestCase
      */
     public function shouldToNull()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $to = new DIBindTo($con, 'space');
         $to->toNull();
         $this->assertInstanceOf(DIConstantBinding::class, $con->getBinding('space'));
@@ -175,7 +175,7 @@ class DIBindToTest extends TestCase
      */
     public function shouldToString()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $to = new DIBindTo($con, 'space');
         $to->toString('hello');
         $this->assertInstanceOf(DIConstantBinding::class, $con->getBinding('space'));
@@ -187,7 +187,7 @@ class DIBindToTest extends TestCase
      */
     public function shouldToSymbol()
     {
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $con->bind('ship')->toConstant(1234);
         $to = new DIBindTo($con, 'space');
         $to->toSymbol('ship');
@@ -202,7 +202,7 @@ class DIBindToTest extends TestCase
     {
         $class = MockItem::class;
         $provider = new MockItemProvider();
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $con->bind($class)->withProvider($provider);
 
         $providerName = "{$class}Provider";

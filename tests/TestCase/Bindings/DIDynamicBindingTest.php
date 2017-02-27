@@ -4,12 +4,12 @@ namespace cgTag\DI\Test\TestCase\DI\Bindings;
 use cgTag\DI\Bindings\DIDynamicBinding;
 use cgTag\DI\DIContainer;
 use cgTag\DI\IDIContainer;
-use PHPUnit\Framework\TestCase;
+use cgTag\DI\Test\BaseTestCase;
 
 /**
  * @see \cgTag\DI\Bindings\DIDynamicBinding
  */
-class DIDynamicBindingTest extends TestCase
+class DIDynamicBindingTest extends BaseTestCase
 {
     /**
      * @test
@@ -17,7 +17,7 @@ class DIDynamicBindingTest extends TestCase
     public function shouldResolve()
     {
         $count = 0;
-        $con = new DIContainer();
+        $con = $this->getNoopContainer();
 
         $bind = new DIDynamicBinding(function ($container) use (&$count, $con) {
             $count++;

@@ -3,12 +3,12 @@ namespace cgTag\DI\Test\TestCase\DI\Bindings;
 
 use cgTag\DI\Bindings\DILazyBinding;
 use cgTag\DI\DIContainer;
-use PHPUnit\Framework\TestCase;
+use cgTag\DI\Test\BaseTestCase;
 
 /**
  * @see \cgTag\DI\Bindings\DILazyBinding
  */
-class DILazyBindingTest extends TestCase
+class DILazyBindingTest extends BaseTestCase
 {
 
     /**
@@ -18,7 +18,7 @@ class DILazyBindingTest extends TestCase
     {
         $bind = new DILazyBinding('space');
 
-        $con = new DIContainer();
+        $con = $this->getEmptyContainer();
         $con->bind('space')->toConstant('ship');
 
         $this->assertEquals('ship', $bind->resolve($con));
@@ -32,6 +32,6 @@ class DILazyBindingTest extends TestCase
     public function shouldThrowDependencyNotFound()
     {
         $bind = new DILazyBinding('space');
-        $bind->resolve(new DIContainer());
+        $bind->resolve($this->getEmptyContainer());
     }
 }
