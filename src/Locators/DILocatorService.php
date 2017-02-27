@@ -12,20 +12,31 @@ use cgTag\DI\Bindings\IDIBinding;
  * ```
  * @service [<description>]
  * ```
+ *
+ * @see \cgTag\DI\Test\TestCase\Locators\DILocatorServiceTest
  */
 class DILocatorService implements IDILocator
 {
     /**
+     * Regex for part of a class name.
+     */
+    const IDENTIFIER = '([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)';
+
+    /**
      * Does the symbol look like a class name with namespace?
      *
-     * The symbol must contain at least one backslash.
+     * The symbol must contain at least one level of namespace.
      *
      * @param string $symbol
      * @return bool
      */
     public static function isClassName(string $symbol): bool
     {
-        return preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*(\\[a-zA-Z_\x7f-\x‌​ff][a-zA-Z0-9_\x7f-\‌​xff]*)+$/', $symbol);
+        static $regex = null;
+        if ($regex === null) {
+            $regex = sprintf('/^%1$s(\\\\%1$s)+$/', static::IDENTIFIER);
+        }
+        return preg_match($regex, $symbol);
     }
 
     /**
@@ -34,13 +45,17 @@ class DILocatorService implements IDILocator
      * @param string $doc
      * @return bool
      */
-    public static function isService(string $doc): bool
+    public static function isService(string $doc = null): bool
     {
-        return preg_match('/@service/', $doc);
+        if($doc === null || $doc === '') {
+            return false;
+        }
+        // very broad match but should be okay for now.
+        return preg_match('/\\*\s*@service\b/m', $doc);
     }
 
     /**
-     * Searches the application space for a symbol and returns a binding if successful, or null if not found.
+     * If the symbol is a class name, then reflection is used to see if it is annotated as a service.
      *
      * @param string $symbol
      * @return IDIBinding|null
@@ -57,7 +72,7 @@ class DILocatorService implements IDILocator
                 return null;
             }
             $doc = $class->getDocComment();
-            if ($doc === false) {
+            if ($doc === false || empty($doc)) {
                 return null;
             }
             if (!static::isService($doc)) {

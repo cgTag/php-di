@@ -91,6 +91,14 @@ class DIReflectionBinding implements IDIBinding
     }
 
     /**
+     * @return string
+     */
+    public function getClassName(): string
+    {
+        return $this->className;
+    }
+
+    /**
      * Returns the binding injectable value.
      *
      * @param IDIContainer $container

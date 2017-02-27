@@ -1,6 +1,9 @@
 <?php
 namespace cgTag\DI\Test\Mocks;
 
+/**
+ * @service Just a simple do nothing service.
+ */
 class MockService
 {
     /**
