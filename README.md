@@ -1,4 +1,11 @@
-# DependencyInjection [![Build Status](https://travis-ci.org/cgTag/DependencyInjection.svg?branch=master)](https://travis-ci.org/cgTag/DependencyInjection)
+# DependencyInjection
+
+[![License](https://poser.pugx.org/cgtag/php-di/license)](https://packagist.org/packages/cgtag/php-di)
+[![Build Status](https://travis-ci.org/cgTag/php-di.svg?branch=master)](https://travis-ci.org/cgTag/php-di)
+[![codecov](https://codecov.io/gh/cgTag/php-di/branch/master/graph/badge.svg)](https://codecov.io/gh/cgTag/php-di)
+[![Total Downloads](https://poser.pugx.org/cgtag/php-di/downloads)](https://packagist.org/packages/cgtag/php-di)
+[![Latest Stable Version](https://poser.pugx.org/cgtag/php-di/v/stable)](https://packagist.org/packages/cgtag/php-di)
+
 An easy to use dependency injection library
 
 ## Background
