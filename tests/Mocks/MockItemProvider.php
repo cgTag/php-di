@@ -10,11 +10,11 @@ class MockItemProvider implements IDIProvider
      * Creates an instance with the passed options.
      *
      * @param IDIContainer $container
-     * @param array $options
      * @return mixed
+     * @internal param array $options
      */
-    public function with(IDIContainer $container, array $options)
+    public function create(IDIContainer $container)
     {
-        return new MockItem($options);
+        return new MockItem($container->get('options'));
     }
 }

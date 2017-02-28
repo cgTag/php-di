@@ -1,7 +1,7 @@
 <?php
 namespace cgTag\DI;
 
-interface IDIResolver extends IDICreator
+interface IDIResolver
 {
     /**
      * Gets an instance from the container.
@@ -26,12 +26,4 @@ interface IDIResolver extends IDICreator
      * @return bool
      */
     public function has(string $symbol): bool;
-
-    /**
-     * Defines a creator that passes arguments to the provider.
-     *
-     * @param array $options
-     * @return IDICreator
-     */
-    public function with(array $options): IDICreator;
 }

@@ -20,7 +20,7 @@ class DILocatorStack implements IDILocator
      */
     public function add(IDILocator $locator): DILocatorStack
     {
-        if (in_array($locator, $this->locators)) {
+        if (in_array($locator, $this->locators, true)) {
             throw new DIArgumentException('Locator already exists');
         }
 

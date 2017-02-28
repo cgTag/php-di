@@ -4,6 +4,7 @@ namespace cgTag\DI\Syntax;
 use cgTag\DI\Bindings\DIConstantBinding;
 use cgTag\DI\Bindings\DIDynamicBinding;
 use cgTag\DI\Bindings\DILazyBinding;
+use cgTag\DI\Bindings\DIProviderBinding;
 use cgTag\DI\Bindings\DIReflectionBinding;
 use cgTag\DI\Bindings\DISingletonBinding;
 use cgTag\DI\Exceptions\DIArgumentException;
@@ -36,17 +37,6 @@ class DIBindTo implements IDIBindTo
 
         $this->container = $container;
         $this->symbol = $symbol;
-    }
-
-    /**
-     * Binds the class name as a service object with dependencies injected to the constructor.
-     *
-     * @return IDIBindTo
-     */
-    public function asService(): IDIBindTo
-    {
-        $this->container->setBinding($this->symbol, new DIReflectionBinding($this->symbol));
-        return $this;
     }
 
     /**
@@ -179,13 +169,12 @@ class DIBindTo implements IDIBindTo
     }
 
     /**
-     * @param IDIProvider $provider
+     * @param string|IDIProvider $provider
      * @return IDIBindTo
      */
-    public function withProvider(IDIProvider $provider): IDIBindTo
+    public function withProvider($provider): IDIBindTo
     {
-        $providerName = "{$this->symbol}Provider";
-        $this->container->setBinding($providerName, new DIConstantBinding($provider));
+        $this->container->setBinding($this->symbol, new DIProviderBinding($provider));
         return $this;
     }
 }

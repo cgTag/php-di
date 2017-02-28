@@ -9,8 +9,7 @@ interface IDIProvider
      * Creates an instance with the passed options.
      *
      * @param IDIContainer $container
-     * @param array $options
      * @return mixed
      */
-    public function with(IDIContainer $container, array $options);
+    public function create(IDIContainer $container);
 }

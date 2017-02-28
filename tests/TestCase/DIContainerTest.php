@@ -31,17 +31,6 @@ class DIContainerTest extends BaseTestCase
     /**
      * @test
      */
-    public function shouldCreate()
-    {
-        $con = $this->getEmptyContainer();
-        $con->bind(MockItem::class)->withProvider(new MockItemProvider());
-        $item = $con->create(MockItem::class);
-        $this->assertInstanceOf(MockItem::class, $item);
-    }
-
-    /**
-     * @test
-     */
     public function shouldGet()
     {
         $con = $this->getEmptyContainer();
@@ -243,23 +232,5 @@ class DIContainerTest extends BaseTestCase
         $con = $this->getEmptyContainer();
         $con->setBinding('space', $this->getMockBinding());
         $con->setBinding('space', $this->getMockBinding());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldWith()
-    {
-        $con = $this->getEmptyContainer();
-        $con->bind(MockItem::class)->withProvider(new MockItemProvider());
-
-        $creator = $con->with(['foo' => 'bar']);
-        $this->assertInstanceOf(IDICreator::class, $creator);
-
-        /** @var MockItem $item */
-        $item = $creator->create(MockItem::class);
-
-        $this->assertInstanceOf(MockItem::class, $item);
-        $this->assertEquals(['foo' => 'bar'], $item->options);
     }
 }

@@ -6,9 +6,6 @@ use cgTag\DI\Bindings\IDIBinding;
 use cgTag\DI\Exceptions\DIArgumentException;
 use cgTag\DI\Exceptions\DIDuplicateException;
 use cgTag\DI\Exceptions\DINotFoundException;
-use cgTag\DI\Exceptions\DIProviderException;
-use cgTag\DI\Providers\DICreator;
-use cgTag\DI\Providers\IDIProvider;
 use cgTag\DI\Syntax\DIBindTo;
 use cgTag\DI\Syntax\IDIBindTo;
 
@@ -20,11 +17,6 @@ class DIContainer implements IDIContainer
      * @var array
      */
     private $bindings;
-
-    /**
-     * @var IDICreator
-     */
-    private $creator;
 
     /**
      * Owner of this container.
@@ -40,7 +32,6 @@ class DIContainer implements IDIContainer
     {
         $this->parent = $parent;
         $this->bindings = [];
-        $this->creator = new DICreator($this, []);
         $this->setBinding(IDIContainer::class, new DIConstantBinding($this));
     }
 
@@ -53,18 +44,6 @@ class DIContainer implements IDIContainer
     public function bind(string $symbol): IDIBindTo
     {
         return new DIBindTo($this, $symbol);
-    }
-
-    /**
-     * Uses a provider to create an instance.
-     *
-     * @param string $className
-     * @return IDIProvider
-     * @throws DIProviderException
-     */
-    public function create(string $className)
-    {
-        return $this->creator->create($className);
     }
 
     /**
@@ -204,16 +183,5 @@ class DIContainer implements IDIContainer
         }
         $this->bindings[$symbol] = $binding;
         return $this;
-    }
-
-    /**
-     * Defines a creator that passes arguments to the provider.
-     *
-     * @param array $options
-     * @return IDICreator
-     */
-    public function with(array $options): IDICreator
-    {
-        return new DICreator($this, $options);
     }
 }

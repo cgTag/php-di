@@ -41,27 +41,6 @@ class DIContainerWrapperTest extends BaseTestCase
     /**
      * @test
      */
-    public function shouldCreate()
-    {
-        $item = new MockItem();
-
-        /** @var DIContainer|PHPUnit_Framework_MockObject_MockObject $mock */
-        $mock = $this->getMockBuilder(DIContainer::class)
-            ->setMethods(['create'])
-            ->getMock();
-
-        $mock->expects($this->once())
-            ->method('create')
-            ->with(MockItem::class)
-            ->willReturn($item);
-
-        $mod = new DIContainerWrapper($mock);
-        $this->assertSame($item, $mod->create(MockItem::class));
-    }
-
-    /**
-     * @test
-     */
     public function shouldGet()
     {
         /** @var DIContainer|PHPUnit_Framework_MockObject_MockObject $mock */
@@ -105,26 +84,5 @@ class DIContainerWrapperTest extends BaseTestCase
 
         $mod = new DIContainerWrapper($mock);
         $this->assertTrue($mod->has('space'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldWith()
-    {
-        $creator = new MockCreator();
-
-        /** @var DIContainer|PHPUnit_Framework_MockObject_MockObject $mock */
-        $mock = $this->getMockBuilder(DIContainer::class)
-            ->setMethods(['with'])
-            ->getMock();
-
-        $mock->expects($this->once())
-            ->method('with')
-            ->with([1, 2, 3, 4])
-            ->willReturn($creator);
-
-        $mod = new DIContainerWrapper($mock);
-        $this->assertSame($creator, $mod->with([1, 2, 3, 4]));
     }
 }

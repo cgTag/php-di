@@ -33,17 +33,6 @@ class DIContainerWrapper implements IDIResolver, IDIBinder
     }
 
     /**
-     * Uses a provider to create an instance.
-     *
-     * @param string $className
-     * @return mixed
-     */
-    public function create(string $className)
-    {
-        return $this->container->create($className);
-    }
-
-    /**
      * Gets an instance from the container.
      *
      * @param string $symbol
@@ -74,16 +63,5 @@ class DIContainerWrapper implements IDIResolver, IDIBinder
     public function has(string $symbol): bool
     {
         return $this->container->has($symbol);
-    }
-
-    /**
-     * Defines a creator that passes arguments to the provider.
-     *
-     * @param array $options
-     * @return IDICreator
-     */
-    public function with(array $options): IDICreator
-    {
-        return $this->container->with($options);
     }
 }

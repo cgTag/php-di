@@ -6,13 +6,6 @@ use cgTag\DI\Providers\IDIProvider;
 interface IDIBindTo
 {
     /**
-     * Binds the class name as a service object with dependencies injected into the constructor.
-     *
-     * @return IDIBindTo
-     */
-    public function asService(): IDIBindTo;
-
-    /**
      * Binds as a singleton.
      *
      * @return IDIBindTo
@@ -101,8 +94,8 @@ interface IDIBindTo
     /**
      * Binds a class identifier to an instance of IDIProvider.
      *
-     * @param IDIProvider $provider
+     * @param string|IDIProvider $provider
      * @return IDIBindTo
      */
-    public function withProvider(IDIProvider $provider): IDIBindTo;
+    public function withProvider($provider): IDIBindTo;
 }

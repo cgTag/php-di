@@ -1,35 +1,36 @@
 <?php
 namespace cgTag\DI\Providers;
 
+use cgTag\DI\Bindings\DIReflectionBinding;
 use cgTag\DI\IDIContainer;
 
 /**
  * Will create instances of the class and pass options as a parameter.
  */
-class DISimpleProvider implements IDIProvider
+class DIReflectionProvider implements IDIProvider
 {
     /**
-     * @var string
+     * @var DIReflectionBinding
      */
-    private $className;
+    private $binding;
 
     /**
      * @param string $className
      */
     public function __construct(string $className)
     {
-        $this->className = $className;
+        $this->binding = new DIReflectionBinding($className);
     }
 
     /**
      * Creates an instance with the passed options.
      *
      * @param IDIContainer $container
-     * @param array $options
      * @return mixed
+     * @internal param array $options
      */
-    public function with(IDIContainer $container, array $options)
+    public function create(IDIContainer $container)
     {
-        return new $this->className($options);
+        return $this->binding->resolve($container);
     }
 }
