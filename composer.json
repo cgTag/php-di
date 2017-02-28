@@ -1,5 +1,5 @@
 {
-    "name": "cgtag/dependency-injection",
+    "name": "cgtag/php-di",
     "description": "The PHP 7 dependency injection container for cgTag",
     "keywords": ["di","dependency injection","library"],
     "type": "library",
@@ -11,8 +11,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/cgTag/DependencyInjection/issues",
-        "source": "https://github.com/cgTag/DependencyInjection"
+        "issues": "https://github.com/cgTag/php-di/issues",
+        "source": "https://github.com/cgTag/php-di"
     },
     "require": {
         "php": ">=7.1.0"
