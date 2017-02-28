@@ -2,7 +2,6 @@
 namespace cgTag\DI\Test\TestCase\DI\Bindings;
 
 use cgTag\DI\Bindings\DIReflectionBinding;
-use cgTag\DI\DIContainer;
 use cgTag\DI\Test\BaseTestCase;
 use cgTag\DI\Test\Mocks\MockItem;
 use cgTag\DI\Test\Mocks\MockService;
@@ -14,6 +13,7 @@ class DIReflectionBindingTest extends BaseTestCase
 {
     /**
      * @test
+     *
      */
     public function shouldGetClass()
     {
@@ -108,6 +108,14 @@ class DIReflectionBindingTest extends BaseTestCase
 
             }, ['name', MockItem::class]],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetSymbolsTakesNull()
+    {
+        $this->assertCount(0, DIReflectionBinding::getSymbols(null));
     }
 
     /**

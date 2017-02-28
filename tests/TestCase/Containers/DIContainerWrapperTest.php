@@ -1,17 +1,14 @@
 <?php
-namespace cgTag\DI\Test\TestCase\DI;
+namespace cgTag\DI\Test\TestCase\DI\Containers;
 
-use cgTag\DI\DIContainer;
-use cgTag\DI\DIContainerWrapper;
+use cgTag\DI\Containers\DIContainer;
+use cgTag\DI\Containers\DIContainerWrapper;
 use cgTag\DI\Syntax\IDIBindTo;
 use cgTag\DI\Test\BaseTestCase;
-use cgTag\DI\Test\Mocks\MockItem;
-use cgTag\DI\Test\Mocks\Providers\MockCreator;
-use cgTag\DI\Test\Mocks\Syntax\MockBindTo;
 use PHPUnit_Framework_MockObject_MockObject;
 
 /**
- * @see \cgTag\DI\DIContainerWrapper
+ * @see \cgTag\DI\Containers\DIContainerWrapper
  */
 class DIContainerWrapperTest extends BaseTestCase
 {
@@ -36,27 +33,6 @@ class DIContainerWrapperTest extends BaseTestCase
 
         $mod = new DIContainerWrapper($mock);
         $this->assertSame($bindTo, $mod->bind('space'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldCreate()
-    {
-        $item = new MockItem();
-
-        /** @var DIContainer|PHPUnit_Framework_MockObject_MockObject $mock */
-        $mock = $this->getMockBuilder(DIContainer::class)
-            ->setMethods(['create'])
-            ->getMock();
-
-        $mock->expects($this->once())
-            ->method('create')
-            ->with(MockItem::class)
-            ->willReturn($item);
-
-        $mod = new DIContainerWrapper($mock);
-        $this->assertSame($item, $mod->create(MockItem::class));
     }
 
     /**
@@ -105,26 +81,5 @@ class DIContainerWrapperTest extends BaseTestCase
 
         $mod = new DIContainerWrapper($mock);
         $this->assertTrue($mod->has('space'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldWith()
-    {
-        $creator = new MockCreator();
-
-        /** @var DIContainer|PHPUnit_Framework_MockObject_MockObject $mock */
-        $mock = $this->getMockBuilder(DIContainer::class)
-            ->setMethods(['with'])
-            ->getMock();
-
-        $mock->expects($this->once())
-            ->method('with')
-            ->with([1, 2, 3, 4])
-            ->willReturn($creator);
-
-        $mod = new DIContainerWrapper($mock);
-        $this->assertSame($creator, $mod->with([1, 2, 3, 4]));
     }
 }

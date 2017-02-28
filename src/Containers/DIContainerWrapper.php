@@ -1,6 +1,9 @@
 <?php
-namespace cgTag\DI;
+namespace cgTag\DI\Containers;
 
+use cgTag\DI\IDIBinder;
+use cgTag\DI\IDIContainer;
+use cgTag\DI\IDIResolver;
 use cgTag\DI\Syntax\IDIBindTo;
 
 /**
@@ -30,17 +33,6 @@ class DIContainerWrapper implements IDIResolver, IDIBinder
     public function bind(string $symbol): IDIBindTo
     {
         return $this->container->bind($symbol);
-    }
-
-    /**
-     * Uses a provider to create an instance.
-     *
-     * @param string $className
-     * @return mixed
-     */
-    public function create(string $className)
-    {
-        return $this->container->create($className);
     }
 
     /**
@@ -74,16 +66,5 @@ class DIContainerWrapper implements IDIResolver, IDIBinder
     public function has(string $symbol): bool
     {
         return $this->container->has($symbol);
-    }
-
-    /**
-     * Defines a creator that passes arguments to the provider.
-     *
-     * @param array $options
-     * @return IDICreator
-     */
-    public function with(array $options): IDICreator
-    {
-        return $this->container->with($options);
     }
 }

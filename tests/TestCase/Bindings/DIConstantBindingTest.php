@@ -2,7 +2,6 @@
 namespace cgTag\DI\Test\TestCase\DI\Bindings;
 
 use cgTag\DI\Bindings\DIConstantBinding;
-use cgTag\DI\DIContainer;
 use cgTag\DI\Test\BaseTestCase;
 
 /**

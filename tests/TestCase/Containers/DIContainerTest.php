@@ -1,17 +1,14 @@
 <?php
-namespace cgTag\DI\Test\TestCase\DI;
+namespace cgTag\DI\Test\TestCase\DI\Containers;
 
 use cgTag\DI\Bindings\DIConstantBinding;
-use cgTag\DI\DIContainer;
+use cgTag\DI\Containers\DIContainer;
 use cgTag\DI\IDIContainer;
-use cgTag\DI\IDICreator;
 use cgTag\DI\Syntax\DIBindTo;
 use cgTag\DI\Test\BaseTestCase;
-use cgTag\DI\Test\Mocks\MockItem;
-use cgTag\DI\Test\Mocks\MockItemProvider;
 
 /**
- * @see \cgTag\DI\DIContainer
+ * @see \cgTag\DI\Containers\DIContainer
  */
 class DIContainerTest extends BaseTestCase
 {
@@ -26,17 +23,6 @@ class DIContainerTest extends BaseTestCase
 
         $this->assertInstanceOf(DIBindTo::class, $bind);
         $this->assertSame($con, $bind->container);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldCreate()
-    {
-        $con = $this->getEmptyContainer();
-        $con->bind(MockItem::class)->withProvider(new MockItemProvider());
-        $item = $con->create(MockItem::class);
-        $this->assertInstanceOf(MockItem::class, $item);
     }
 
     /**
@@ -243,23 +229,5 @@ class DIContainerTest extends BaseTestCase
         $con = $this->getEmptyContainer();
         $con->setBinding('space', $this->getMockBinding());
         $con->setBinding('space', $this->getMockBinding());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldWith()
-    {
-        $con = $this->getEmptyContainer();
-        $con->bind(MockItem::class)->withProvider(new MockItemProvider());
-
-        $creator = $con->with(['foo' => 'bar']);
-        $this->assertInstanceOf(IDICreator::class, $creator);
-
-        /** @var MockItem $item */
-        $item = $creator->create(MockItem::class);
-
-        $this->assertInstanceOf(MockItem::class, $item);
-        $this->assertEquals(['foo' => 'bar'], $item->options);
     }
 }

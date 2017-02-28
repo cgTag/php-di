@@ -1,7 +1,6 @@
 <?php
 namespace cgTag\DI\Test\TestCase\DI;
 
-use cgTag\DI\DIContainer;
 use cgTag\DI\DIKernel;
 use cgTag\DI\DIModule;
 use cgTag\DI\Test\BaseTestCase;

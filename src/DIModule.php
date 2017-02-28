@@ -1,6 +1,7 @@
 <?php
 namespace cgTag\DI;
 
+use cgTag\DI\Containers\DIContainerWrapper;
 use cgTag\DI\Exceptions\DIArgumentException;
 
 /**
