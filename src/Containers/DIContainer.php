@@ -1,11 +1,12 @@
 <?php
-namespace cgTag\DI;
+namespace cgTag\DI\Containers;
 
 use cgTag\DI\Bindings\DIConstantBinding;
 use cgTag\DI\Bindings\IDIBinding;
 use cgTag\DI\Exceptions\DIArgumentException;
 use cgTag\DI\Exceptions\DIDuplicateException;
 use cgTag\DI\Exceptions\DINotFoundException;
+use cgTag\DI\IDIContainer;
 use cgTag\DI\Syntax\DIBindTo;
 use cgTag\DI\Syntax\IDIBindTo;
 
@@ -90,12 +91,15 @@ class DIContainer implements IDIContainer
         $binding = array_key_exists($symbol, $this->bindings)
             ? $this->bindings[$symbol]
             : null;
+
         if ($binding) {
             return $binding;
         }
+
         if($this->parent !== null) {
             return $this->parent->getBinding($symbol);
         }
+
         return null;
     }
 

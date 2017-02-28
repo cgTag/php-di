@@ -31,10 +31,6 @@ class DILazyBinding implements IDIBinding
      */
     public function resolve(IDIContainer $container)
     {
-        $binding = $container->getBinding($this->symbol);
-        if ($binding === null) {
-            throw new DINotFoundException($this->symbol);
-        }
-        return $binding->resolve($container);
+        return $container->get($this->symbol);
     }
 }

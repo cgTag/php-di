@@ -12,16 +12,14 @@ class DIReflectionBinding implements IDIBinding
      * @var string
      */
     private $className;
-
-    /**
-     * @var array
-     */
-    private $symbols;
-
     /**
      * @var \ReflectionClass
      */
     private $reflectClass;
+    /**
+     * @var array
+     */
+    private $symbols;
 
     /**
      * @param IDIContainer $container
@@ -72,8 +70,11 @@ class DIReflectionBinding implements IDIBinding
      * @param \ReflectionFunctionAbstract $method
      * @return array
      */
-    public static function getSymbols(\ReflectionFunctionAbstract $method): array
+    public static function getSymbols(\ReflectionFunctionAbstract $method = null): array
     {
+        if ($method === null) {
+            return [];
+        }
         return array_map(function (\ReflectionParameter $param) {
             return static::getSymbol($param);
         }, $method->getParameters());
@@ -116,11 +117,11 @@ class DIReflectionBinding implements IDIBinding
      */
     public function resolve(IDIContainer $container)
     {
-        if(!$this->symbols) {
+        if (!$this->symbols) {
             $this->symbols = static::getSymbols($this->getClass()->getConstructor());
         }
 
-        if(!$this->reflectClass) {
+        if (!$this->reflectClass) {
             $this->reflectClass = $this->getClass();
         }
 

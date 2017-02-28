@@ -5,7 +5,7 @@ use cgTag\DI\Bindings\DIReflectionBinding;
 use cgTag\DI\IDIContainer;
 
 /**
- * Will create instances of the class and pass options as a parameter.
+ * Uses reflection to inject dependencies into the constructor of the object to be provided.
  */
 class DIReflectionProvider implements IDIProvider
 {

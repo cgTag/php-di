@@ -1,17 +1,14 @@
 <?php
-namespace cgTag\DI\Test\TestCase\DI;
+namespace cgTag\DI\Test\TestCase\DI\Containers;
 
-use cgTag\DI\DIContainer;
-use cgTag\DI\DIContainerWrapper;
+use cgTag\DI\Containers\DIContainer;
+use cgTag\DI\Containers\DIContainerWrapper;
 use cgTag\DI\Syntax\IDIBindTo;
 use cgTag\DI\Test\BaseTestCase;
-use cgTag\DI\Test\Mocks\MockItem;
-use cgTag\DI\Test\Mocks\Providers\MockCreator;
-use cgTag\DI\Test\Mocks\Syntax\MockBindTo;
 use PHPUnit_Framework_MockObject_MockObject;
 
 /**
- * @see \cgTag\DI\DIContainerWrapper
+ * @see \cgTag\DI\Containers\DIContainerWrapper
  */
 class DIContainerWrapperTest extends BaseTestCase
 {

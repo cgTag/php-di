@@ -1,6 +1,9 @@
 <?php
-namespace cgTag\DI;
+namespace cgTag\DI\Containers;
 
+use cgTag\DI\IDIBinder;
+use cgTag\DI\IDIContainer;
+use cgTag\DI\IDIResolver;
 use cgTag\DI\Syntax\IDIBindTo;
 
 /**

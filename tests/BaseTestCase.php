@@ -2,7 +2,7 @@
 namespace cgTag\DI\Test;
 
 use cgTag\DI\Bindings\IDIBinding;
-use cgTag\DI\DIContainer;
+use cgTag\DI\Containers\DIContainer;
 use cgTag\DI\IDIContainer;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;

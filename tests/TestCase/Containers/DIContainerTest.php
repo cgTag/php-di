@@ -1,17 +1,14 @@
 <?php
-namespace cgTag\DI\Test\TestCase\DI;
+namespace cgTag\DI\Test\TestCase\DI\Containers;
 
 use cgTag\DI\Bindings\DIConstantBinding;
-use cgTag\DI\DIContainer;
+use cgTag\DI\Containers\DIContainer;
 use cgTag\DI\IDIContainer;
-use cgTag\DI\IDICreator;
 use cgTag\DI\Syntax\DIBindTo;
 use cgTag\DI\Test\BaseTestCase;
-use cgTag\DI\Test\Mocks\MockItem;
-use cgTag\DI\Test\Mocks\MockItemProvider;
 
 /**
- * @see \cgTag\DI\DIContainer
+ * @see \cgTag\DI\Containers\DIContainer
  */
 class DIContainerTest extends BaseTestCase
 {

@@ -3,7 +3,6 @@ namespace cgTag\DI\Test\TestCase\DI\Bindings;
 
 use cgTag\DI\Bindings\DIDynamicBinding;
 use cgTag\DI\Bindings\DISingletonBinding;
-use cgTag\DI\DIContainer;
 use cgTag\DI\Test\BaseTestCase;
 
 /**

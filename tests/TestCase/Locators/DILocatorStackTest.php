@@ -1,7 +1,6 @@
 <?php
 namespace cgTag\DI\Test\TestCase\Locators;
 
-use cgTag\DI\Bindings\DIConstantBinding;
 use cgTag\DI\Bindings\IDIBinding;
 use cgTag\DI\Locators\DILocatorStack;
 use cgTag\DI\Locators\IDILocator;
